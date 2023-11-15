@@ -1,10 +1,10 @@
 package com.cst438.DTO;
 
 public record QuestionDTO(
-    String questionText,
-    String optionA,
-    String optionB,
-    String optionC,
-    String optionD,
-    char correctAnswer
+    String question_text,
+    String option_a,
+    String option_b,
+    String option_c,
+    String option_d,
+    String correct_answer
 ) {}
