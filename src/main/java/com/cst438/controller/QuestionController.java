@@ -91,4 +91,15 @@ public class QuestionController {
     public List<BooleanQuestion> getTriviaBooleanQuestions() {
         return triviaBooleanService.fetchTriviaBooleanQuestions();
     }
+    
+    @GetMapping("/boolean/random")
+    public ResponseEntity<BooleanQuestion> getRandomTriviaBooleanQuestion() {
+        BooleanQuestion question = triviaBooleanService.fetchRandomTriviaBooleanQuestion();
+        
+        if (question != null) {
+            return ResponseEntity.ok(question);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
 }
