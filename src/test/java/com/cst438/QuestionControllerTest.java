@@ -60,24 +60,37 @@ public class QuestionControllerTest {
         assertNotNull(result.getQuestion_id());
     }
     
-//    @Test
-//    public void testUpdateQuestion() throws Exception {
-//        MockHttpServletResponse response;
-//
-//        Long questionId = 1L;
-//        QuestionDTO questionDTO = new QuestionDTO("Updated Question Text", "Option A", "Option B", "Option C", "Option D", 'A');
-//
-//        response = mvc.perform(
-//                MockMvcRequestBuilders
-//                        .put("/questions/" + questionId)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(asJsonString(questionDTO))
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andReturn().getResponse();
-//
-//        assertEquals(200, response.getStatus());
-//
-//    }
+    @Test
+    public void testUpdateQuestion() throws Exception {
+        MockHttpServletResponse response;
+
+        int questionId = 1;
+        QuestionDTO questionDTO = new QuestionDTO("Updated Question Text", "Option A", "Option B", "Option C", "Option D", "A");
+
+        response = mvc.perform(
+                MockMvcRequestBuilders
+                        .put("/questions/" + questionId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(questionDTO))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+        assertEquals(200, response.getStatus());
+
+    }
+    
+    @Test
+    public void testDeleteQuestion() throws Exception {
+        int questionId = 1;
+
+        MockHttpServletResponse response = mvc.perform(
+                MockMvcRequestBuilders
+                        .delete("/questions/" + questionId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+        assertEquals(204, response.getStatus());
+    }
 
 
 
