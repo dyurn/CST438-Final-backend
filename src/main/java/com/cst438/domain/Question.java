@@ -1,5 +1,6 @@
 package com.cst438.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,95 +13,95 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionId;
+    private int question_id;
 
-    private String questionText;
-    private String optionA;
-    private String optionB;
-    private String optionC;
-    private String optionD;
-    private char correctAnswer;
+    @Column(name = "question_text")
+    private String question_text;
+    @Column(name = "option_a")
+    private String option_a;
+    @Column(name = "option_b")
+    private String option_b;
+    @Column(name = "option_c")
+    private String option_c;
+    @Column(name = "option_d")
+    private String option_d;
+    @Column(name = "correct_answer")
+    private String correct_answer;
 
     public Question() {
     }
 
-    public Question(String questionText, String optionA, String optionB, String optionC, String optionD, char correctAnswer) {
-        this.questionText = questionText;
-        this.optionA = optionA;
-        this.optionB = optionB;
-        this.optionC = optionC;
-        this.optionD = optionD;
-        this.correctAnswer = correctAnswer;
+    public Question(String question_text, String option_a, String option_b, String option_c, String option_d, String correct_answer) {
+        this.question_text = question_text;
+        this.option_a = option_a;
+        this.option_b = option_b;
+        this.option_c = option_c;
+        this.option_d = option_d;
+        this.correct_answer = correct_answer;
     }
 
-    // Getters et Setters
-    public Long getQuestionId() {
-        return questionId;
-    }
+	public int getQuestion_id() {
+		return question_id;
+	}
 
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
-    }
+	public void setQuestion_id(int question_id) {
+		this.question_id = question_id;
+	}
 
-    public String getQuestionText() {
-        return questionText;
-    }
+	public String getQuestion_text() {
+		return question_text;
+	}
 
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
+	public void setQuestion_text(String question_text) {
+		this.question_text = question_text;
+	}
 
-    public String getOptionA() {
-        return optionA;
-    }
+	public String getOption_a() {
+		return option_a;
+	}
 
-    public void setOptionA(String optionA) {
-        this.optionA = optionA;
-    }
+	public void setOption_a(String option_a) {
+		this.option_a = option_a;
+	}
 
-    public String getOptionB() {
-        return optionB;
-    }
+	public String getOption_b() {
+		return option_b;
+	}
 
-    public void setOptionB(String optionB) {
-        this.optionB = optionB;
-    }
+	public void setOption_b(String option_b) {
+		this.option_b = option_b;
+	}
 
-    public String getOptionC() {
-        return optionC;
-    }
+	public String getOption_c() {
+		return option_c;
+	}
 
-    public void setOptionC(String optionC) {
-        this.optionC = optionC;
-    }
+	public void setOption_c(String option_c) {
+		this.option_c = option_c;
+	}
 
-    public String getOptionD() {
-        return optionD;
-    }
+	public String getOption_d() {
+		return option_d;
+	}
 
-    public void setOptionD(String optionD) {
-        this.optionD = optionD;
-    }
+	public void setOption_d(String option_d) {
+		this.option_d = option_d;
+	}
 
-    public char getCorrectAnswer() {
-        return correctAnswer;
-    }
+	public String getCorrect_answer() {
+		return correct_answer;
+	}
 
-    public void setCorrectAnswer(char correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
+	public void setCorrect_answer(String correct_answer) {
+		this.correct_answer = correct_answer;
+	}
 
-    // Méthode toString
-    @Override
-    public String toString() {
-        return "Question{" +
-                "questionId=" + questionId +
-                ", questionText='" + questionText + '\'' +
-                ", optionA='" + optionA + '\'' +
-                ", optionB='" + optionB +'\'' +
-                ", optionC='" + optionC + '\'' +
-                ", optionD='" + optionD + '\'' +
-                ", correctAnswer=" + correctAnswer +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Question [question_id=" + question_id + ", question_text=" + question_text + ", option_a=" + option_a
+				+ ", option_b=" + option_b + ", option_c=" + option_c + ", option_d=" + option_d + ", correct_answer="
+				+ correct_answer + "]";
+	}
+
+    
 }
