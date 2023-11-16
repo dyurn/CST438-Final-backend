@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import com.cst438.domain.BooleanQuestion;
 import com.cst438.domain.Question;
 import com.cst438.DTO.QuestionDTO;
 import com.cst438.domain.QuestionRepository;
 import com.cst438.service.QuestionService;
+import com.cst438.service.TriviaBooleanService;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,9 @@ public class QuestionController {
     
     @Autowired
     private QuestionService questionService;
+    
+    @Autowired
+    private TriviaBooleanService triviaBooleanService;
 
     @GetMapping
     public ResponseEntity<List<Question>> getAllQuestions() {
@@ -76,9 +81,25 @@ public class QuestionController {
         return ResponseEntity.noContent().build();
     }
     
-    @GetMapping("/random")
+    @GetMapping("/mcq/random")
     public ResponseEntity<Question> getRandomQuestion() {
         Optional<Question> question = questionService.getRandomQuestion();
         return question.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+    }
+    
+    @GetMapping("/boolean")
+    public List<BooleanQuestion> getTriviaBooleanQuestions() {
+        return triviaBooleanService.fetchTriviaBooleanQuestions();
+    }
+    
+    @GetMapping("/boolean/random")
+    public ResponseEntity<BooleanQuestion> getRandomTriviaBooleanQuestion() {
+        BooleanQuestion question = triviaBooleanService.fetchRandomTriviaBooleanQuestion();
+        
+        if (question != null) {
+            return ResponseEntity.ok(question);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 }
