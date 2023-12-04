@@ -3,6 +3,7 @@ package com.cst438.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class QuestionController {
     }
 
     @PostMapping
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Question> addQuestion(@RequestBody QuestionDTO questionDTO) {
         Question newQuestion = new Question(
             questionDTO.question_text(),
@@ -52,7 +53,7 @@ public class QuestionController {
     }
 
     @PutMapping("/{question_id}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Question> updateQuestion(@PathVariable("question_id") int question_id, @RequestBody QuestionDTO questionDTO) {
         Optional<Question> questionOpt = questionRepository.findById(question_id);
         if (!questionOpt.isPresent()) {
@@ -72,7 +73,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{questionId}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteQuestion(@PathVariable("questionId") int questionId) {
         if (!questionRepository.existsById(questionId)) {
             return ResponseEntity.notFound().build();
