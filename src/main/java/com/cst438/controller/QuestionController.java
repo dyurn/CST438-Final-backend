@@ -1,7 +1,9 @@
 package com.cst438.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +17,7 @@ import com.cst438.service.TriviaBooleanService;
 import java.util.List;
 import java.util.Optional;
 
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/questions")
 public class QuestionController {
@@ -29,13 +31,13 @@ public class QuestionController {
     @Autowired
     private TriviaBooleanService triviaBooleanService;
 
-    @GetMapping
+    @GetMapping("/mcq")
     public ResponseEntity<List<Question>> getAllQuestions() {
         return ResponseEntity.ok(questionRepository.findAll());
     }
 
     @PostMapping
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Question> addQuestion(@RequestBody QuestionDTO questionDTO) {
         Question newQuestion = new Question(
             questionDTO.question_text(),
@@ -51,7 +53,7 @@ public class QuestionController {
     }
 
     @PutMapping("/{question_id}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Question> updateQuestion(@PathVariable("question_id") int question_id, @RequestBody QuestionDTO questionDTO) {
         Optional<Question> questionOpt = questionRepository.findById(question_id);
         if (!questionOpt.isPresent()) {
@@ -71,7 +73,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{questionId}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteQuestion(@PathVariable("questionId") int questionId) {
         if (!questionRepository.existsById(questionId)) {
             return ResponseEntity.notFound().build();
@@ -92,14 +94,34 @@ public class QuestionController {
         return triviaBooleanService.fetchTriviaBooleanQuestions();
     }
     
+    @GetMapping("/boolean/next")
+    public ResponseEntity<BooleanQuestion> getNextBooleanQuestion() {
+        BooleanQuestion question = triviaBooleanService.getNextQuestion();
+        if (question == null) {
+            return ResponseEntity.noContent().build(); // Ou autre gestion d'erreur
+        }
+        return ResponseEntity.ok(question);
+    }
+
+    
     @GetMapping("/boolean/random")
-    public ResponseEntity<BooleanQuestion> getRandomTriviaBooleanQuestion() {
-        BooleanQuestion question = triviaBooleanService.fetchRandomTriviaBooleanQuestion();
-        
+    public ResponseEntity<BooleanQuestion> getRandomBooleanQuestion() {
+        BooleanQuestion question = triviaBooleanService.getNextQuestion();
         if (question != null) {
             return ResponseEntity.ok(question);
         } else {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+    
+//    @GetMapping("/boolean/random")
+//    public ResponseEntity<BooleanQuestion> getRandomTriviaBooleanQuestion() {
+//        BooleanQuestion question = triviaBooleanService.fetchRandomTriviaBooleanQuestion();
+//        
+//        if (question != null) {
+//            return ResponseEntity.ok(question);
+//        } else {
+//            return ResponseEntity.noContent().build();
+//        }
+//    }
 }
